@@ -1,17 +1,17 @@
-name: Deploy Backend
+name: Deploy to EC2
 
 on:
   push:
     branches:
-      - main   # change if you deploy from another branch
+      - main   # or your chosen branch
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -24,14 +24,17 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push Docker image to ECR
+      - name: Build, tag, and push image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
-          IMAGE_URI=${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
-          docker build -t $IMAGE_URI .
-          docker push $IMAGE_URI
+          IMAGE_TAG=latest
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v1.2.0
+      - name: SSH and deploy on EC2
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
