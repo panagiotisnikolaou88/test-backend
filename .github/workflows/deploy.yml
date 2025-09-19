@@ -7,6 +7,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1
 
     steps:
       - name: Checkout repository
@@ -24,8 +26,7 @@ jobs:
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
         with:
-          registry-type: ecr
-          region: us-east-1
+          registry-type: private
 
       - name: Build and Push Docker image
         run: |
