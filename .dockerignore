@@ -1,0 +1,20 @@
+# Ignore build artifacts
+# target/
+
+# Ignore Git metadata
+.git
+.gitignore
+
+# Ignore Docker files (don’t need to send them twice)
+Dockerfile
+.dockerignore
+
+# Ignore logs
+*.log
+
+# Ignore environment files
+.env
+
+# Ignore docs/markdown
+*.md
+README.md

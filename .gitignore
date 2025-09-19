@@ -2,6 +2,9 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
+target/
+.m2/
+
 # IDE files
 .idea/
 *.iml
