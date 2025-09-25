@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Boot Form Test</title>
+    <title>Backend deployment project</title>
 </head>
 <body>
-    <h1>Greetings from Spring Boot!</h1>
-
+    <h1>Hey guys, here's a working test page linking to an RDS MYSQL db.</h1>
+    <p>
+        This is setup using a fully automated pipeline so all you need to do is make changes and push the backend and everything else happens automatically.
+    </p>
+    <p>
+        Note: I didn't add an SSL certificate since this would require me paying for a domain, hence the security warning.
+    </p>
     <form action="/add" method="post">
         <input type="text" name="name" placeholder="Enter your name" required>
         <button type="submit">Submit</button>
